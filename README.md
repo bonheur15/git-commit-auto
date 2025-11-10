@@ -81,4 +81,6 @@ From now on, your workflow will be:
 
 The script will show you the message it generated and then perform the commit.
 
+In the future, users will be able to use `git commit-auto push` to commit and push changes.
+
 **Note:** Git automatically recognizes executables in your `PATH` that are named `git-xyz` as Git subcommands. That's why running `git commit-auto` works!
