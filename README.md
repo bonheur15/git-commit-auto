@@ -9,6 +9,7 @@ This allows you to run `git commit-auto` instead of `git commit -m "..."`.
 
 You must have the following command-line tools installed:
 
+
 - `git`
 
 - `curl` (for making API requests)
