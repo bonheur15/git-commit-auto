@@ -81,6 +81,21 @@ You can typically install `curl` and `jq` using your system's package manager (l
 
 The script will show you the message it generated and then perform the commit.
 
+### Creating and Pushing a New Commit
+
+If you want to create a commit and immediately push it to your remote repository, you can use the `push` command.
+
+1. Make your code changes.
+2. Stage your changes:
+   ```
+   git add .
+   ```
+3. Run the following command:
+   ```
+   git commit-auto push
+   ```
+This will generate the commit message, commit the changes, and then push the commit.
+
 ### Regenerating the Last Commit Message
 
 If you are not satisfied with the last commit message, you can easily regenerate it and amend the commit.

@@ -7,6 +7,7 @@
 #
 # Usage:
 #   git-commit-auto             - Creates a new commit from staged changes.
+#   git-commit-auto push        - Creates a new commit and pushes it.
 #   git-commit-auto regenerate  - Regenerates the message for the last commit and amends it.
 #
 # Dependencies:
@@ -155,6 +156,12 @@ main() {
         git commit -m "$commit_message"
 
         echo "Commit successful!"
+
+        if [ "$1" == "push" ]; then
+            echo "Pushing to remote..."
+            git push
+            echo "Push successful!"
+        fi
     fi
 }
 
