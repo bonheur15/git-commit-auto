@@ -61,7 +61,7 @@ You can typically install `curl` and `jq` using your system's package manager (l
 
 ## How to Use
 
-From now on, your workflow will be:
+### Creating a New Commit
 
 1. Make your code changes.
 
@@ -81,6 +81,15 @@ From now on, your workflow will be:
 
 The script will show you the message it generated and then perform the commit.
 
-In the future, users will be able to use `git commit-auto push` to commit and push changes.
+### Regenerating the Last Commit Message
+
+If you are not satisfied with the last commit message, you can easily regenerate it and amend the commit.
+
+1. Make sure you have not pushed the commit yet.
+2. Run the following command:
+   ```
+   git commit-auto regenerate
+   ```
+This will take the changes from the most recent commit, generate a new message, and amend the commit with the new message.
 
 **Note:** Git automatically recognizes executables in your `PATH` that are named `git-xyz` as Git subcommands. That's why running `git commit-auto` works!
