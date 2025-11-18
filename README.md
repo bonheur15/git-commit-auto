@@ -6,6 +6,7 @@ This allows you to run `git commit-auto` instead of `git commit -m "..."`.
 
 ## Dependencies
 
+
 You must have the following command-line tools installed:
 
 - `git`
