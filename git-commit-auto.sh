@@ -129,7 +129,6 @@ main() {
         local new_commit_message
         new_commit_message=$(generate_commit_message "$git_diff")
 
-        echo "Generated Message: $new_commit_message"
         echo "Amending previous commit..."
 
         git commit --amend -m "$new_commit_message"
@@ -147,9 +146,6 @@ main() {
 
         local commit_message
         commit_message=$(generate_commit_message "$git_diff")
-
-        echo "Generated Message: $commit_message"
-        echo "Committing..."
 
         git commit -m "$commit_message"
 
