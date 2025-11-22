@@ -33,7 +33,7 @@ You can typically install `curl` and `jq` using your system's package manager (l
 
    - You need to securely store this API key as an environment variable named `GEMINI_API_KEY`.
 
-   - Add the following line to your shell's configuration file (e.g., `~/.bashrc`, `~/.zshrc`, or `~/.profile`):
+   - Add the following line at the end to your shell's configuration file: nano (e.g., `~/.bashrc`, `~/.zshrc`, or `~/.profile`):
 
      ```
      export GEMINI_API_KEY="YOUR_API_KEY_HERE"
