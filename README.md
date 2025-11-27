@@ -86,6 +86,17 @@ You can typically install `curl` and `jq` using your system's package manager (l
 
 The script will show you the message it generated and then perform the commit.
 
+### Updating Changelog
+
+You can automatically append the generated commit message to a `CHANGELOG.md` file.
+
+- **If `CHANGELOG.md` exists:** The script will automatically append the commit message under today's date.
+- **If `CHANGELOG.md` does not exist:** Pass the `changelog` argument to create it.
+
+```
+git commit-auto changelog
+```
+
 ### Creating and Pushing a New Commit
 
 If you want to create a commit and immediately push it to your remote repository, you can use the `push` command.
@@ -100,6 +111,14 @@ If you want to create a commit and immediately push it to your remote repository
    git commit-auto push
    ```
 This will generate the commit message, commit the changes, and then push the commit.
+
+### Combining Arguments
+
+You can combine arguments to perform multiple actions at once. For example, to commit, update the changelog (creating it if necessary), and push:
+
+```
+git commit-auto push changelog
+```
 
 ### Regenerating the Last Commit Message
 
