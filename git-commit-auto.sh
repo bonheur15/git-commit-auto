@@ -117,10 +117,63 @@ generate_commit_message() {
 
 # --- Main Logic ---
 
+# Function to update the changelog
+update_changelog() {
+    local commit_message="$1"
+    local force_create="$2"
+    local changelog_file="CHANGELOG.md"
+    local date_header="## $(date +%Y-%m-%d)"
+
+    if [ ! -f "$changelog_file" ]; then
+        if [ "$force_create" = true ]; then
+            echo "Creating $changelog_file..."
+            echo -e "# Changelog\n" > "$changelog_file"
+        else
+            return 0
+        fi
+    fi
+
+    # Check if today's header exists
+    if grep -Fq "$date_header" "$changelog_file"; then
+        # Insert message after the date header
+        local temp_file=$(mktemp)
+        awk -v header="$date_header" -v msg="- $commit_message" '
+            $0 == header { print; print msg; next }
+            { print }
+        ' "$changelog_file" > "$temp_file" && mv "$temp_file" "$changelog_file"
+    else
+        # Insert new date header and message
+        local temp_file=$(mktemp)
+        if grep -q "^# Changelog" "$changelog_file"; then
+             awk -v header="$date_header" -v msg="- $commit_message" '
+                /^# Changelog/ { print; print ""; print header; print msg; next }
+                { print }
+            ' "$changelog_file" > "$temp_file" && mv "$temp_file" "$changelog_file"
+        else
+            # File exists but does not start with # Changelog
+            echo -e "$date_header\n- $commit_message" | cat - "$changelog_file" > "$temp_file" && mv "$temp_file" "$changelog_file"
+        fi
+    fi
+
+    echo "Updated $changelog_file"
+}
+
 main() {
     check_dependencies
 
-    if [ "$1" == "regenerate" ]; then
+    local regenerate_flag=false
+    local push_flag=false
+    local changelog_flag=false
+
+    for arg in "$@"; do
+        case "$arg" in
+            regenerate) regenerate_flag=true ;;
+            push)       push_flag=true ;;
+            changelog)  changelog_flag=true ;;
+        esac
+    done
+
+    if [ "$regenerate_flag" = true ]; then
 
         # Get the diff from the last commit
         local git_diff
@@ -151,7 +204,9 @@ main() {
 
         echo "Commit successful!"
 
-        if [ "$1" == "push" ]; then
+        update_changelog "$commit_message" "$changelog_flag"
+
+        if [ "$push_flag" = true ]; then
             echo "Pushing to remote..."
             git push
             echo "Push successful!"
