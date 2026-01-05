@@ -277,7 +277,7 @@
                         >
                         <h3 class="font-bold text-lg mb-2">Update Changelog</h3>
                         <p class="text-neutral-500 text-sm leading-relaxed">
-                            Automatically appends the new commit message to your 
+                            Automatically appends the new commit message to your
                             <code>CHANGELOG.md</code> file under today's date.
                         </p>
                     </div>
@@ -333,17 +333,17 @@
                         >
                             2
                         </div>
-                        <div class="w-full">
+                        <div class="w-full flex flex-col relative">
                             <h3 class="font-bold text-lg">
                                 Set Environment Variable
                             </h3>
                             <p class="text-sm text-neutral-500 mb-3">
-                                Add this line at the end to your shell config: nano
-                                (<code>~/.bashrc</code>, <code>~/.zshrc</code>,
-                                etc)
+                                Add this line at the end to your shell config:
+                                nano (<code>~/.bashrc</code>,
+                                <code>~/.zshrc</code>, etc)
                             </p>
                             <div
-                                class="bg-neutral-100 border border-neutral-200 rounded p-4 font-mono text-sm text-neutral-700 overflow-x-auto whitespace-pre"
+                                class="max-w-full bg-neutral-100 border border-neutral-200 rounded p-4 font-mono text-sm text-neutral-700"
                             >
                                 export GEMINI_API_KEY="YOUR_API_KEY_HERE"
                             </div>
@@ -371,7 +371,7 @@
                                 class="bg-neutral-900 text-neutral-300 border border-neutral-800 rounded p-4 font-mono text-sm overflow-x-auto flex flex-col"
                             >
                                 <span class="text-neutral-500"
-                                    ># 1. Download the file (example)</span
+                                    ># 1. Download the file</span
                                 >
                                 curl -L
                                 https://raw.githubusercontent.com/bonheur15/git-commit-auto/main/git-commit-auto.sh
