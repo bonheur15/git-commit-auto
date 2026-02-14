@@ -1,134 +1,105 @@
-# Git Commit Auto (with Gemini AI)
+# Git Commit Auto (Gemini AI)
 
-This script, `git-commit-auto`, automatically generates a conventional commit message for your staged changes using the Gemini AI and then executes the commit.
+`git-commit-auto` generates Conventional Commit messages from your staged diff, then commits for you.
 
-This allows you to run `git commit-auto` instead of `git commit -m "..."`.
-
-![compare](https://github.com/user-attachments/assets/242b556f-5774-49c2-a482-e4ac707f8b2b)
-
-
+It now supports:
+- Automatic split into multiple commits for large staged changes
+- Self-update from `https://git-auto.hubfly.cloud/git-commit-auto.sh`
+- Built-in version + release timestamp reporting
 
 ## Dependencies
 
-
-You must have the following command-line tools installed:
-
-
 - `git`
+- `curl`
+- `jq`
+- `GEMINI_API_KEY` environment variable
 
-- `curl` (for making API requests)
+## Install
 
-- `jq` (for parsing the API response)
+1. Get a Gemini API key.
+2. Export it in your shell config:
 
-You can typically install `curl` and `jq` using your system's package manager (like `apt`, `yum`, `brew`, or `pacman`).
-
-
-## Setup Instructions
-
-1. **Get a Gemini API Key:**
-
-   - Go to Google AI Studio (or Google Cloud Console) and create an API key.
-
-2. **Set Environment Variable:**
-
-   - You need to securely store this API key as an environment variable named `GEMINI_API_KEY`.
-
-   - Add the following line at the end to your shell's configuration file: nano (e.g., `~/.bashrc`, `~/.zshrc`, or `~/.profile`):
-
-     ```
-     export GEMINI_API_KEY="YOUR_API_KEY_HERE"
-     ```
-
-   - Replace `YOUR_API_KEY_HERE` with your actual key.
-
-   - Reload your shell for the change to take effect (e.g., by running `source ~/.bashrc` or just opening a new terminal).
-
-3. **Install the Script:**
-
-   - Save the `git-commit-auto.sh` script from the previous file.
-
-   - Rename it to just `git-commit-auto` (no `.sh` extension).
-
-   - Make it executable:
-
-     ```
-     chmod +x git-commit-auto
-     ```
-
-   - Move it to a directory that is in your system's `PATH`. A common place is `/usr/local/bin`:
-
-     ```
-     sudo mv git-commit-auto /usr/local/bin/
-     ```
-
-     (You can also use a directory in your home, like `~/bin`, if you have that in your `PATH`).
-
-
-## How to Use
-
-### Creating a New Commit
-
-1. Make your code changes.
-
-2. Stage your changes as usual:
-
-   ```
-   git add .
-   ```
-
-   _(or `git add <file1> <file2>...`)_
-
-3. Instead of `git commit`, just run:
-
-   ```
-   git commit-auto
-   ```
-
-The script will show you the message it generated and then perform the commit.
-
-### Updating Changelog
-
-You can automatically append the generated commit message to a `CHANGELOG.md` file.
-
-- **If `CHANGELOG.md` exists:** The script will automatically append the commit message under today's date.
-- **If `CHANGELOG.md` does not exist:** Pass the `changelog` argument to create it.
-
-```
-git commit-auto changelog
+```bash
+export GEMINI_API_KEY="YOUR_API_KEY_HERE"
 ```
 
-### Creating and Pushing a New Commit
+3. Install script:
 
-If you want to create a commit and immediately push it to your remote repository, you can use the `push` command.
-
-1. Make your code changes.
-2. Stage your changes:
-   ```
-   git add .
-   ```
-3. Run the following command:
-   ```
-   git commit-auto push
-   ```
-This will generate the commit message, commit the changes, and then push the commit.
-
-### Combining Arguments
-
-You can combine arguments to perform multiple actions at once. For example, to commit, update the changelog (creating it if necessary), and push:
-
-```
-git commit-auto push changelog
+```bash
+curl -L https://git-auto.hubfly.cloud/git-commit-auto.sh -o git-commit-auto
+chmod +x git-commit-auto
+sudo mv git-commit-auto /usr/local/bin/
 ```
 
-### Regenerating the Last Commit Message
+## Commands
 
-If you are not satisfied with the last commit message, you can easily regenerate it and amend the commit.
+```bash
+git commit-auto                  # Commit staged changes
+git commit-auto push             # Commit then push
+git commit-auto regenerate       # Regenerate/amend last commit message
+git commit-auto changelog        # Also append commit message(s) to CHANGELOG.md
+git commit-auto split            # Force split staged files into multiple commits
+git commit-auto no-split         # Disable automatic split for this run
+git commit-auto dry-run          # Preview message(s), do not commit
+git commit-auto version          # Show version + release datetime
+git commit-auto check-update     # Check if update is available
+git commit-auto update           # Download and replace current script
+git commit-auto help             # Show help
+```
 
-1. Make sure you have not pushed the commit yet.
-2. Run the following command:
-   ```
-   git commit-auto regenerate
-   ```
-This will take the changes from the most recent commit, generate a new message, and amend the commit with the new message.
+You can combine arguments:
 
-**Note:** Git automatically recognizes executables in your `PATH` that are named `git-xyz` as Git subcommands. That's why running `git commit-auto` works!
+```bash
+git commit-auto split push changelog
+```
+
+## Large Commit Splitting
+
+When staged changes are large, the script automatically creates multiple commits.
+
+Default split trigger:
+- More than `8` staged files, or
+- More than `500` total changed lines in staged diff
+
+Default chunk size:
+- `4` files per commit
+
+Notes:
+- Split mode is file-based.
+- Split mode blocks partially staged files to avoid accidental staging behavior changes.
+
+## Version and Release Metadata
+
+Each script release includes:
+- `SCRIPT_VERSION`
+- `SCRIPT_RELEASED_AT` (UTC timestamp)
+
+Check current release:
+
+```bash
+git commit-auto version
+```
+
+## Self Update
+
+Update in place from the official URL:
+
+```bash
+git commit-auto update
+```
+
+Check first:
+
+```bash
+git commit-auto check-update
+```
+
+## Changelog Integration
+
+If you pass `changelog`, generated commit message(s) are appended under today's date in `CHANGELOG.md`.
+
+If `CHANGELOG.md` does not exist, it will be created.
+
+## Safety Note
+
+`regenerate push` uses `git push --force-with-lease` because amend rewrites commit history.

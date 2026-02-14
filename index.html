@@ -81,7 +81,7 @@
                             class="inline-block px-3 py-1 mb-6 border border-neutral-200 rounded-full bg-white"
                         >
                             <span class="text-xs font-mono text-neutral-500"
-                                >v1.0.0 Stable</span
+                                >v1.1.0 Stable</span
                             >
                         </div>
                         <h1
@@ -200,7 +200,7 @@
             <div class="max-w-6xl mx-auto">
                 <div class="mb-16">
                     <h2 class="text-3xl font-bold tracking-tight mb-4">
-                        Four modes. Total control.
+                        Six modes. Total control.
                     </h2>
                     <p class="text-neutral-500">
                         Streamline your workflow with these simple commands.
@@ -208,7 +208,7 @@
                 </div>
 
                 <div
-                    class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 border-t border-l border-neutral-200"
+                    class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 border-t border-l border-neutral-200"
                 >
                     <div
                         class="p-10 border-r border-b border-neutral-200 hover:bg-neutral-50 transition-colors duration-300 group"
@@ -279,6 +279,40 @@
                         <p class="text-neutral-500 text-sm leading-relaxed">
                             Automatically appends the new commit message to your
                             <code>CHANGELOG.md</code> file under today's date.
+                        </p>
+                    </div>
+
+                    <div
+                        class="p-10 border-r border-b border-neutral-200 hover:bg-neutral-50 transition-colors duration-300 group"
+                    >
+                        <div class="font-mono text-xs text-brand mb-4">
+                            05 — SPLIT
+                        </div>
+                        <code
+                            class="block bg-neutral-900 text-white p-3 rounded mb-4 font-mono text-sm"
+                            >$ git commit-auto split</code
+                        >
+                        <h3 class="font-bold text-lg mb-2">Multi-Commit Mode</h3>
+                        <p class="text-neutral-500 text-sm leading-relaxed">
+                            Large staged changes can be split into multiple
+                            commits automatically for cleaner history.
+                        </p>
+                    </div>
+
+                    <div
+                        class="p-10 border-r border-b border-neutral-200 hover:bg-neutral-50 transition-colors duration-300 group"
+                    >
+                        <div class="font-mono text-xs text-brand mb-4">
+                            06 — MAINTAIN
+                        </div>
+                        <code
+                            class="block bg-neutral-900 text-white p-3 rounded mb-4 font-mono text-sm"
+                            >$ git commit-auto update</code
+                        >
+                        <h3 class="font-bold text-lg mb-2">Self Update + Version</h3>
+                        <p class="text-neutral-500 text-sm leading-relaxed">
+                            Check, update, and track CLI releases with built-in
+                            version and release timestamp commands.
                         </p>
                     </div>
                 </div>
@@ -374,7 +408,7 @@
                                     ># 1. Download the file</span
                                 >
                                 curl -L
-                                https://raw.githubusercontent.com/bonheur15/git-commit-auto/main/git-commit-auto.sh
+                                https://git-auto.hubfly.cloud/git-commit-auto.sh
                                 -o git-commit-auto
 
                                 <span class="text-neutral-500"
@@ -386,6 +420,11 @@
                                     ># 3. Move to PATH</span
                                 >
                                 sudo mv git-commit-auto /usr/local/bin/
+
+                                <span class="text-neutral-500"
+                                    ># 4. Later, update in-place</span
+                                >
+                                git commit-auto update
                             </div>
                         </div>
                     </div>
@@ -411,7 +450,7 @@
                 <p>&copy; 2025 git-commit-auto.</p>
                 <div class="flex gap-4 font-mono">
                     <span>MIT License</span>
-                    <span>v1.0.0</span>
+                    <span>v1.1.0</span>
                 </div>
             </div>
         </footer>
