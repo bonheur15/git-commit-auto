@@ -283,13 +283,14 @@ update_changelog() {
     local changelog_file="CHANGELOG.md"
     local date_header="## $(date +%Y-%m-%d)"
 
+    # Changelog updates are opt-in only.
+    if [ "$force_create" != true ]; then
+        return 0
+    fi
+
     if [ ! -f "$changelog_file" ]; then
-        if [ "$force_create" = true ]; then
-            echo "Creating $changelog_file..."
-            echo -e "# Changelog\n" > "$changelog_file"
-        else
-            return 0
-        fi
+        echo "Creating $changelog_file..."
+        echo -e "# Changelog\n" > "$changelog_file"
     fi
 
     if grep -Fq "$date_header" "$changelog_file"; then
