@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-02-15
+- CHORE: Make changelog creation opt-in
+
+- The `update_changelog` function now checks the `force_create` variable before proceeding.
+- This change makes the creation of `CHANGELOG.md` an opt-in feature, requiring explicit user action or configuration to trigger.
+- The previous logic would create the file if it didn't exist and `force_create` was true, but the intent is now more explicit.
+
 ## 2026-02-14
 - FEAT: Add automatic large-commit splitting into multiple commits
 - FEAT: Add `split`, `no-split`, and `dry-run` command support
