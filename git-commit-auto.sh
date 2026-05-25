@@ -21,8 +21,8 @@ set -e
 set -o pipefail
 
 # --- Release Metadata ---
-SCRIPT_VERSION="1.1.1"
-SCRIPT_RELEASED_AT="2026-02-14T00:00:00Z"
+SCRIPT_VERSION="1.1.2"
+SCRIPT_RELEASED_AT="2026-05-14T00:00:00Z"
 UPDATE_URL="https://git-auto.hubfly.cloud/git-commit-auto.sh"
 
 # --- Configuration ---
