@@ -208,13 +208,18 @@ generate_commit_message() {
         exit 0
     fi
 
+    # Truncate very large diffs to avoid argument length and API limit issues
+    local max_diff_len=200000
+    if [ ${#git_diff} -gt $max_diff_len ]; then
+        git_diff="${git_diff:0:$max_diff_len}\n\n... [diff truncated to ${max_diff_len} chars due to size]"
+    fi
+
     local json_payload
-    json_payload=$(jq -n \
+    json_payload=$(printf '%s' "$git_diff" | jq -Rs \
         --arg system_prompt "$SYSTEM_PROMPT" \
-        --arg diff "$git_diff" \
         '{
             "systemInstruction": { "parts": [{ "text": $system_prompt }] },
-            "contents": [{ "parts": [{ "text": ("Here is the diff:\n\n" + $diff) }] }],
+            "contents": [{ "parts": [{ "text": ("Here is the diff:\n\n" + .) }] }],
             "generationConfig": {
                 "temperature": 0.4,
                 "maxOutputTokens": 800
@@ -233,9 +238,9 @@ generate_commit_message() {
         local model_success=false
 
         for ((i=0; i<max_retries_per_model; i++)); do
-            response=$(curl -s -X POST "${api_url}?key=${GEMINI_API_KEY}" \
+            response=$(printf '%s' "$json_payload" | curl -s -X POST "${api_url}?key=${GEMINI_API_KEY}" \
                 -H "Content-Type: application/json" \
-                -d "$json_payload")
+                -d @-)
 
             if echo "$response" | jq -e '.candidates[0].content.parts[0].text' > /dev/null; then
                 model_success=true
